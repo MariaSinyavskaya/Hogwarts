@@ -51,7 +51,7 @@ public class StudentController {
     public ResponseEntity<Collection<Student>> getStudentsByAge(
             @RequestParam(required = false) int age) {
         if (age > 0) {
-            return ResponseEntity.ok(studentService.getAllStudentsByAge(age));
+            return ResponseEntity.ok(studentService.findByAge(age));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }

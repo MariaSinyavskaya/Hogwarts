@@ -22,7 +22,7 @@ public class FacultyController {
     public ResponseEntity<Faculty> getFaculty(@PathVariable Long id) {
         Faculty faculty = facultyService.findFaculty(id);
         if (faculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(faculty);
     }
@@ -51,7 +51,7 @@ public class FacultyController {
     public ResponseEntity<Collection<Faculty>> getFacultiesByColor(
             @RequestParam(required = false) String color) {
         if (color != null && !color.isBlank()) {
-            return ResponseEntity.ok(facultyService.getAllFacultyByColor(color));
+            return ResponseEntity.ok(facultyService.findByColor(color));
         }
         return ResponseEntity.ok(Collections.emptyList());
     }
