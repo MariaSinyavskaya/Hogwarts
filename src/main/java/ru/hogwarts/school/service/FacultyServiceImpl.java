@@ -2,6 +2,7 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.Collection;
@@ -40,7 +41,17 @@ public class FacultyServiceImpl implements FacultyService {
     }
 
     @Override
+    public Collection<Faculty> findByNameOrColor(String name, String color) {
+        return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+    }
+
+    @Override
     public Collection<Faculty> getAllFaculties() {
         return facultyRepository.findAll();
+    }
+
+    @Override
+    public Collection<Student> findStudentsOfFaculty(Long id) {
+        return facultyRepository.getReferenceById(id).getStudents();
     }
 }

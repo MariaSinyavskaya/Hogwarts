@@ -3,6 +3,7 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyServiceImpl;
 
 import java.util.Collection;
@@ -26,14 +27,15 @@ public class FacultyController {
         return ResponseEntity.ok(faculty);
     }
 
-    @GetMapping("all-faculties")
+    @GetMapping("findAllFaculties")
     public ResponseEntity<Collection<Faculty>> getAllFaculties() {
         return ResponseEntity.ok(facultyServiceImpl.getAllFaculties());
     }
 
     @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyServiceImpl.createFaculty(faculty);
+    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
+        Faculty createFaculty = facultyServiceImpl.createFaculty(faculty);
+        return ResponseEntity.ok(createFaculty);
     }
 
     @PutMapping
@@ -57,6 +59,21 @@ public class FacultyController {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(facultyServiceImpl.findByColor(color));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("findAllFacultiesByNameOrColor")
+    public ResponseEntity<Collection<Faculty>> getAllFacultiesByNameOrColor(
+            @RequestParam(required = false) String color,
+            @RequestParam(required = false) String name) {
+        if ((name != null && !name.isBlank()) || (color != null && !color.isBlank())) {
+            return ResponseEntity.ok(facultyServiceImpl.findByNameOrColor(name, color));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("findStudents/{id}")
+    public ResponseEntity<Collection<Student>> getStudentsOfFaculty(@PathVariable Long id) {
+        return ResponseEntity.ok(facultyServiceImpl.findStudentsOfFaculty(id));
     }
 }

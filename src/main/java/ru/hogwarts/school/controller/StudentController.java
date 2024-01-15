@@ -2,6 +2,7 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentServiceImpl;
 
@@ -26,14 +27,15 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
-    @GetMapping("all-students")
+    @GetMapping("findAllStudents")
     public ResponseEntity<Collection<Student>> getAllStudent() {
         return ResponseEntity.ok(studentServiceImpl.getAllStudents());
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student) {
-        return studentServiceImpl.createStudent(student);
+    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+        Student createStudent = studentServiceImpl.createStudent(student);
+        return ResponseEntity.ok(createStudent);
     }
 
     @PutMapping
@@ -57,6 +59,21 @@ public class StudentController {
         if (age > 0) {
             return ResponseEntity.ok(studentServiceImpl.findByAge(age));
         }
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("findAllStudentsByAgeBetween")
+    public ResponseEntity<Collection<Student>> getStudentsByAgeBetween(
+            @RequestParam int min,
+            @RequestParam int max) {
+        if (min > 0 & max < 100) {
+            return ResponseEntity.ok(studentServiceImpl.findByAgeBetween(min, max));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("findFaculty/{id}")
+    public ResponseEntity<Faculty> getFacultyOfStudent(@PathVariable Long id) {
+        return ResponseEntity.ok(studentServiceImpl.findFacultyOfStudent(id));
     }
 }
