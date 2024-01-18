@@ -7,7 +7,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyServiceImpl;
 
 import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("faculty")

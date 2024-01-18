@@ -17,7 +17,7 @@ public class Faculty {
 
     @JsonIgnore
     @OneToMany(mappedBy = "faculty")
-    List<Student> students;
+    private List<Student> students;
     public Faculty() {
     }
 
