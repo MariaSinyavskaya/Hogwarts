@@ -163,7 +163,7 @@ public class StudentControllerWebMvcTest {
 
         when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty);
         when(studentRepository.save(any(Student.class))).thenReturn(student);
-        when(studentRepository.getReferenceById(student.getId()).getFaculty()).thenReturn(student.getFaculty());
+        when(studentRepository.getReferenceById(anyLong())).thenReturn(student);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/findFaculty/" + student.getId()))

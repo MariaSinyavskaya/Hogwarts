@@ -151,7 +151,7 @@ public class FacultyControllerWebMvcTest {
         faculty1.setStudents(List.of(student));
 
         when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty1);
-        when(facultyRepository.getReferenceById(anyLong()).getStudents()).thenReturn(faculty1.getStudents());
+        when(facultyRepository.getReferenceById(anyLong())).thenReturn(faculty1);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/findStudents/" + faculty1.getId())
