@@ -7,6 +7,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -54,5 +55,20 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Faculty findFacultyOfStudent(Long id) {
         return studentRepository.getReferenceById(id).getFaculty();
+    }
+
+    @Override
+    public int getCountOfStudents() {
+        return studentRepository.getCountOfStudents();
+    }
+
+    @Override
+    public double getAvgOfStudentsAge() {
+        return studentRepository.getAvgOfStudentsAge();
+    }
+
+    @Override
+    public List<Student> getFiveLastStudents() {
+        return studentRepository.getFiveLastStudents();
     }
 }
