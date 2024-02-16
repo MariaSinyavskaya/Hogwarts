@@ -21,6 +21,7 @@ import ru.hogwarts.school.service.StudentServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -259,4 +260,36 @@ public class StudentControllerWebMvcTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void testSum1() {
+        Stream.iterate(1, a -> a +1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b );
+    }
+
+    @Test
+    void testSum2() {
+        Stream.iterate(1, a -> a +1)
+                .parallel()
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b );
+    }
+
+    @Test
+    void testSum3() {
+        Stream.iterate(1, a -> a +1)
+                .limit(1_000_000)
+                .parallel()
+                .reduce(0, (a, b) -> a + b );
+    }
+
+    @Test
+    void testSum4() {
+        Stream.iterate(1, a -> a +1)
+                .limit(1_000_000)
+                .mapToInt(i -> i)
+                .sum();
+    }
+
 }

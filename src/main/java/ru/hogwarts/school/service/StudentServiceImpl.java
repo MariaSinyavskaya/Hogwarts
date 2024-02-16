@@ -10,9 +10,12 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
-public class StudentServiceImpl implements StudentService{
+public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
 
     Logger logger = LoggerFactory.getLogger(StudentServiceImpl.class);
@@ -89,5 +92,46 @@ public class StudentServiceImpl implements StudentService{
     public List<Student> getFiveLastStudents() {
         logger.info("Was invoked method for get five last students in db");
         return studentRepository.getFiveLastStudents();
+    }
+
+    @Override
+    public List<String> getNamesStartsWithA() {
+        logger.info("Was invoked method for get names of students starts with A");
+        return studentRepository.findAll()
+                .stream()
+                .parallel()
+                .filter(Objects::nonNull)
+                .map(Student::getName)
+                .filter(name -> name.startsWith("A"))
+                .sorted()
+                .map(String::toUpperCase)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public double getAverageOfAge() {
+        logger.info("Was invoked method for get average of age");
+        return studentRepository.findAll()
+                .stream()
+                .parallel()
+                .filter(Objects::nonNull)
+                .map(Student::getAge)
+                .mapToDouble(a -> a)
+                .average()
+                .orElse(0);
+    }
+
+    @Override
+    public int sum() {
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        return sum;
+
+        // В классе StudentControllerWebMvcTest провела 4 теста
+        // с разными вариантами реализации данного метода,
+        // чтобы сравнить время выполнения. Данный вариант оказался лучшим.
+        // Использование параллельных стримов затрачивает гораздо больше времени и ресурсов.
+
     }
 }
