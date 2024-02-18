@@ -106,4 +106,16 @@ public class StudentController {
     public Integer sum() {
         return studentServiceImpl.sum();
     }
+
+    @GetMapping("print-parallel")
+    public ResponseEntity<Void> printParallel() {
+        studentServiceImpl.printParallel();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("print-synchronized")
+    public ResponseEntity<Void> printSynchronized() {
+        studentServiceImpl.printSynchronized();
+        return ResponseEntity.ok().build();
+    }
 }

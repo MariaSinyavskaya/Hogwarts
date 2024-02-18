@@ -134,4 +134,48 @@ public class StudentServiceImpl implements StudentService {
         // Использование параллельных стримов затрачивает гораздо больше времени и ресурсов.
 
     }
+
+    private void print(List<Student> studentList, int index) {
+        System.out.println(studentList.get(index).getName());
+    }
+
+    private synchronized void printSync(List<Student> studentList, int index) {
+        System.out.println(studentList.get(index).getName());
+    }
+
+    @Override
+    public void printParallel() {
+        List<Student> studentList = studentRepository.findAll();
+
+        print(studentList, 0);
+        print(studentList, 1);
+
+        new Thread(() -> {
+            print(studentList, 2);
+            print(studentList, 3);
+        }).start();
+
+        new Thread(() -> {
+            print(studentList, 4);
+            print(studentList, 5);
+        }).start();
+    }
+
+    @Override
+    public void printSynchronized() {
+        List<Student> studentList = studentRepository.findAll();
+
+        printSync(studentList, 0);
+        printSync(studentList, 1);
+
+        new Thread(() -> {
+            printSync(studentList, 2);
+            printSync(studentList, 3);
+        }).start();
+
+        new Thread(() -> {
+            printSync(studentList, 4);
+            printSync(studentList, 5);
+        }).start();
+    }
 }
