@@ -91,4 +91,19 @@ public class StudentController {
     public List<Student> getFiveLastStudents() {
         return studentServiceImpl.getFiveLastStudents();
     }
+
+    @GetMapping("get-names-starts-with-A")
+    public ResponseEntity<List<String>> getNamesStartsWithA() {
+        return ResponseEntity.ok(studentServiceImpl.getNamesStartsWithA());
+    }
+
+    @GetMapping("get-average-of-age")
+    public Double getAverageOfAge() {
+        return studentServiceImpl.getAverageOfAge();
+    }
+
+    @GetMapping("sum")
+    public Integer sum() {
+        return studentServiceImpl.sum();
+    }
 }
