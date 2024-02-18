@@ -31,4 +31,7 @@ public interface StudentService {
 
     int sum();
 
+    void printParallel();
+
+    void printSynchronized();
 }
